@@ -19,8 +19,8 @@ const auth = getAuth(app);
 // Set the Auth persistence to SESSION
 try {
     auth.setPersistence(browserSessionPersistence);
-} catch (err) {
-    console.error("Could not set Auth persistence", err);
+} catch (error) {
+    console.error("Could not set Auth persistence", error);
 }
 
 export { db, auth };

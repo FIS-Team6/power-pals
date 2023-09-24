@@ -39,7 +39,6 @@ export const createFirestoreUser = async (id, email, username) => {
 
         console.log("User document created successfully");
     } catch (error) {
-        console.log(err.response.data.error);
         console.error("Error creating user document:", error);
     }
 };
@@ -70,7 +69,6 @@ export const signUp = async (email, password, username) => {
     } catch (error) {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(err.response.data.error);
         console.error(errorCode, errorMessage);
     }
 };
