@@ -27,7 +27,7 @@ export default function NavBar() {
 
     return (
         <div className='w-full min-h-[50px] flex justify-between items-center absolute z-10 text-white bg-gray-700/80'>
-            <div className='flex text-center items-center justify-between'>
+            <div className=''>
                 <ul className = 'h-full w-full text-center pt-12'>
                     <li classNam="p-4">
                     <a href="/home">Home</a>
