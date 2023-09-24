@@ -43,13 +43,21 @@ export const createFirestoreUser = async (id, email, username) => {
     }
 };
 
-export const signUp = async (email, password, username) => {
+export const signUp = async (authData) => {
+    console.log('in signup:', authData);
     try {
+
+        const email = authData.email
+        const password = authData.password
+        const username = authData.username
+
         const userCredential = await createUserWithEmailAndPassword(
             auth,
             email,
             password
         );
+
+        console.log(userCredential)
         const user = userCredential.user;
         if (user) {
             await updateProfile(user, {
@@ -81,6 +89,7 @@ export const signIn = async (email, password) => {
             email,
             password
         );
+        console.log(userCredential)
         const user = userCredential.user;
 
         // Successful sign-in logic

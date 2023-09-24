@@ -1,6 +1,8 @@
 'use client'
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { auth, db } from "../server/firebase-config";
+const { doc, getDoc, setDoc } = require ("firebase/firestore");
+import { createFirestoreUser } from "../server/firebase-auth";
 
 const UserContext = createContext();
 
@@ -13,8 +15,9 @@ export const useUser = () => {
 };
 
 export const UserProvider = ({ children }) => {
+
     const [currentUser, setCurrentUser] = useState(null);
-    const [selectedUser, setSelectedUser] = useState(null);
+    const [userLoggedIn, setUserLoggedIn] = useState(false);
 
 
     // auth change
@@ -28,6 +31,7 @@ export const UserProvider = ({ children }) => {
                 if (userDocSnapshot.exists()) {
                     const userData = userDocSnapshot.data();
                     setCurrentUser(userData);
+                    setUserLoggedIn(true);
 
                 } else {
                     console.log(
@@ -43,6 +47,7 @@ export const UserProvider = ({ children }) => {
                 }
             } else {
                 setCurrentUser(null);
+                setUserLoggedIn(false);
             }
         });
         return () => unsubscribe();
@@ -50,6 +55,7 @@ export const UserProvider = ({ children }) => {
 
     const value = {
         currentUser,
+        userLoggedIn,
     };
 
     return (
