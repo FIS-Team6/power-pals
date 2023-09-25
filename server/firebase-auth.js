@@ -19,10 +19,10 @@ import { USERS } from "../utils/database-vars";
 // Sign Up
 // check if profile / email already exist. and throw error / exception
 
-export const createFirestoreUser = async (id, email, username) => {
+export const createFirestoreUser = async (id, email) => {
 
     //check to make sure arguments are presented to avoid creating incomplete user doc
-    if (!id || !email || !username) {
+    if (!id || !email) {
         console.error("Missing required parameters");
         return;
     }
@@ -30,7 +30,6 @@ export const createFirestoreUser = async (id, email, username) => {
     try {
         const newUser = {
             id: id,
-            username: username.toLowerCase(),
             email: email,
             createdAt: createdAt,
         };
@@ -49,7 +48,7 @@ export const signUp = async (authData) => {
 
         const email = authData.email
         const password = authData.password
-        const username = authData.username
+        // const username = authData.username
 
         const userCredential = await createUserWithEmailAndPassword(
             auth,
@@ -59,16 +58,16 @@ export const signUp = async (authData) => {
 
         console.log(userCredential)
         const user = userCredential.user;
-        if (user) {
-            await updateProfile(user, {
-                displayName: username,
-            });
-        }
+        // if (user) {
+        //     await updateProfile(user, {
+        //         displayName: username,
+        //     });
+        // }
         // Check if email already exists in the 'users' collection
         if (user) {
             const id = user?.uid;
             const email = user?.email;
-            await createFirestoreUser(id, email, username);
+            await createFirestoreUser(id, email);
         }
         console.log("Document written with ID:", user.uid);
         // firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
@@ -95,7 +94,7 @@ export const signIn = async (email, password) => {
         // Successful sign-in logic
         if (user) {
             console.log("User signed in successfully:", user.uid);
-            navToHome();
+            navTo('/home');
             return user;
         }
     } catch (error) {
@@ -150,11 +149,8 @@ export async function getUserByUserId(userId) {
 }
 
 
-
-
 // Sign Out
 export const signOut = async () => {
     await auth.signOut();
-    await cleanUpUserStatus()
-    navToHome();
+    navTo('/login');
 }
