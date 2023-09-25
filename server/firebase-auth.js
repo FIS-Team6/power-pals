@@ -95,7 +95,7 @@ export const signIn = async (email, password) => {
         // Successful sign-in logic
         if (user) {
             console.log("User signed in successfully:", user.uid);
-            // navToHome();
+            navToHome();
             return user;
         }
     } catch (error) {
