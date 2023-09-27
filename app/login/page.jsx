@@ -2,9 +2,11 @@
 import React, { useState } from 'react';
 import { signIn } from "../../server/firebase-auth";
 import { useUser } from "../../context/UserContext";
+import { useRouter } from 'next/navigation'
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 
 export default function LoginPage() {
+    const router = useRouter();
     const { currentUser } = useUser();
     const [authFormData, setAuthFormData] = useState(null);
 
@@ -26,15 +28,16 @@ export default function LoginPage() {
         const password = authFormData?.password;
 
         if (!email || !password) {
-            return;
+            router.push('/login')
+            console.log("Please enter a valid email and/or password");            
         }
-
         try {
             await signIn(email, password);
         } catch (error) {
             console.error("Error signing in:", error);
         }
     };
+
     return (
         <main>
             <div className="hero min-h-screen bg-base-200">
@@ -49,20 +52,22 @@ export default function LoginPage() {
                         <label className="label">
                             <span className="label-text">Email</span>
                         </label>
-                        <input type="text" placeholder="email" className="input input-bordered" />
+                        <input name='email' onChange={handleInputChange} type="text" placeholder="email" className="input input-bordered" />
                         </div>
                         <div className="transform">
                         <div className="form-control">
                         <label className="label">
                             <span className="label-text">Password</span>
                         </label>
-                        <input type={passwordVisible ? "text" : "password"} placeholder="password" className="input input-bordered" />
+                        <div className='flex flex-row'>
+
+                        <input name='password' onChange={handleInputChange} type={passwordVisible ? "text" : "password"} placeholder="password" className="input input-bordered" />
                     <span
                         className="text-lg relative"
                         style={{
                             color: "teal",
-                            top: "8px",
-                            right: "10px",
+                            top: "15px",
+                            right: "30px",
                             zIndex: "1000",
                             cursor: "pointer",
                         }}
@@ -70,6 +75,7 @@ export default function LoginPage() {
                     >
                         {icon}
                     </span>
+                        </div>
                     </div>
                         </div>
                         <label className="label">

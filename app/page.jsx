@@ -11,7 +11,7 @@ export default function App() {
           <button className="btn btn-primary">Start Here</button>
           </div>
       </div>
-      </div>      
+      </div>
    </main>
   )
 }
