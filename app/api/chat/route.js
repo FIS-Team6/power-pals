@@ -1,5 +1,5 @@
 // app/api/chat/route.js
-
+require('dotenv').config();
 import { OpenAI, Configuration } from "openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 
