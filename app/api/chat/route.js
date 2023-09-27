@@ -1,10 +1,12 @@
 // app/api/chat/route.js
 require('dotenv').config();
-import { OpenAI, Configuration } from "openai";
+import { OpenAI } from "openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 
-const configuration = new Configuration({ apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY })
-const openai = new OpenAI(configuration);
+// const configuration = new Configuration({ apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY })
+// const openai = new OpenAI(configuration);
+
+const openai = new OpenAI({ apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY });
 
 export async function POST(req) {
     // Extract the `messages` from the body of the request
