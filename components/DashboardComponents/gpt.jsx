@@ -21,8 +21,8 @@ export default function Chat() {
             <form onSubmit={handleSubmit}>
                 <label>
                     Say something...
-                    <input value={input} onChange={handleInputChange} />
                 </label>
+                    <input value={input} onChange={handleInputChange} />
                 <button type="submit">Send</button>
             </form>
         </div>
