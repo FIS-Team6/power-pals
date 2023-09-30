@@ -31,10 +31,7 @@ const closeModal = async () => {
 };
 
 export default function NewTask() {
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
-
-    
+    const [dueDate, setDueDate] = useState("");
 
     return (
         <div className="container">
@@ -63,20 +60,12 @@ export default function NewTask() {
                                 placeholder="Task Description"
                             />
                             <div className="flex flex-row">
-                                <div>
-                                    <label>from</label>
-                                    <DatePicker
-                                        className="w-auto"
-                                        selected={startDate}
-                                        onChange={(date) => setStartDate(date)} //only when value has changed
-                                    />
-                                </div>
 
                                 <div>
                                     <label>To:</label>
                                     <DatePicker
-                                        selected={endDate}
-                                        onChange={(date) => setEndDate(date)} //only when value has changed
+                                        selected={dueDate}
+                                        onChange={(date) => setDueDate(date)} //only when value has changed
                                     />
                                 </div>
                             </div>
