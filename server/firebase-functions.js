@@ -1,7 +1,5 @@
-const admin = require("firebase-admin");
-admin.initializeApp();
-
-const db = admin.firestore();
+import { serverTimestamp } from "firebase/firestore";
+import { auth, db } from "./firebase-config";
 
 const saveArrayToFirestoreSubcollection = async (userId, dataArray) => {
     try {
@@ -22,11 +20,35 @@ const saveArrayToFirestoreSubcollection = async (userId, dataArray) => {
     }
 };
 
-const dataArray = [
-    { sessionType: "morning", duration: 30 },
-    { sessionType: "afternoon", duration: 40 },
-    { sessionType: "evening", duration: 50 },
-];
+// ********** new assignment crud ****************
 
-// Example usage
-saveArrayToFirestoreSubcollection("someUserId", dataArray);
+export const addAssignmentIdToUserCol = async (userId, assignmentId) => {
+    try {
+        const userRef = db.collection("users").doc(userId);
+        const userDoc = await userRef.get();
+        const user = userDoc.data();
+        const newAssignments = [...user.assignments, assignmentId];
+        await userRef.update({ assignments: newAssignments });
+        console.log("Assignment ID successfully added to user collection.");
+    } catch (error) {
+        console.error("Error adding assignment ID to user collection: ", error);
+    }
+}
+
+export const createNewAssignment = async (baseData, aiTaskArray) => {
+    try {
+        const assignmentRef = db.collection("assignments").doc();
+        const assignmentId = assignmentRef.id;
+        const assignmentData = {
+            ...baseData,
+            id: assignmentId,
+            aiTasks: aiTaskArray,
+            createdAt: serverTimestamp(),
+        };
+        await assignmentRef.set(assignmentData);
+        console.log("Assignment successfully created.");
+        return assignmentId;
+    } catch (error) {
+        console.error("Error creating assignment: ", error);
+    }
+}
