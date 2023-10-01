@@ -13,9 +13,9 @@ export default function DashboardPage() {
 
     return (
         <main>
-            <h1 className=''>Dashboard</h1>
+            <h1 className=''></h1>
             {/* <NewTask setTaskFormData={setTaskFormData} /> */}
-            {/* <AssignmentPreviewPreview taskFormData={taskFormData} aiDataForFirestore={aiDataForFirestore}/> */}
+            <AssignmentPreviewPreview taskFormData={taskFormData} aiDataForFirestore={aiDataForFirestore}/>
             <GPTComponent
             aiDataForFirestore={aiDataForFirestore}
             setAiDataForFirestore={setAiDataForFirestore}

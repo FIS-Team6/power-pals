@@ -5,13 +5,11 @@ import { useUser } from "../../context/UserContext";
 import { createNewAssignment } from "../../server/firebase-functions";
 
 export default function Chat({
-    aiDataForFirestore, 
+    aiDataForFirestore,
     setAiDataForFirestore,
     taskFormData,
     setTaskFormData,
 }) {
-
-
     const {
         messages,
         input,
@@ -58,9 +56,9 @@ export default function Chat({
         dueDate: "10/31/2023",
         assignment:
             "Write a 2 page paper on the importance of water in your diet. site 2 sources.",
-        numTasks: 3,
+        numTasks: 2,
         subtasksMin: 2,
-        subtasksMax: 4,
+        subtasksMax: 3,
     };
 
     const constructPromptSentence = (formData) => {
@@ -83,22 +81,21 @@ export default function Chat({
     // console.log(promptSentence);
 
     const promptPrimer = `
-Response must not be in json format, not stringified,
-response must be an array of javascript objects. 
+Response must be in json format, dateformat is timestamp
+no quotations before the beginning and and end of the array.
 this is the assignment: ${mockFormData.assignment}.
 I'm starting this assignment on ${mockFormData.startDate}. 
 the assignment is due on ${mockFormData.dueDate} and i intend to complete everything the day before
 based on the due date, divide the assignment into ${mockFormData.numTasks} tasks. 
-tasks must be javascript objects, not json, not stringified the following keys: name, description, subTasks, and dueDate
+tasks must be json objects with the following keys: name, description, subTasks, and dueDate
 name is the name of the task
 Each task must contain between ${mockFormData.subtasksMin} and ${mockFormData.subtasksMax} subTasks 
-The subtask is an array javascript objects nested under the task
+The subtask is an object nested under the task's subclass key
 each subtask must contain the following keys: name, description and dueDate
 The subtasks will be saved as an array of objects under under each task 
 description should describe the task or subTask it is under and maximum 1 - 2 sentences long.
-response should NOt be in json format,not stringified
+respond with an array of javascript objects. starting and ending with brackets
 Please generate the JSON in a single line without any newline characters.
-
 `;
 
     const [prompt, setPrompt] = useState(promptPrimer);
@@ -128,18 +125,41 @@ Please generate the JSON in a single line without any newline characters.
             ? assistantMessages.slice(-1)[0].content
             : null;
 
+    function cleanJSONString(str) {
+        // Replace escaped quotes
+        let cleanedString = str.replace(/\\\"/g, '"');
+
+        // Replace double double-quotes around property names
+        cleanedString = cleanedString.replace(
+            /\"\"([a-zA-Z0-9_]+)\"\"/g,
+            '"$1"'
+        );
+
+        // Remove invalid control characters
+        cleanedString = cleanedString.replace(/[\x00-\x1F\x7F-\x9F]/g, "");
+        cleanedString = cleanedString.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?\s*:/g, '"$2" :');
+
+        return cleanedString;
+    }
 
     useEffect(() => {
         if (isLoading) {
             console.log("Loading...");
         } else {
-            setAiDataForFirestore(lastAssistantMessage);
-            console.log(lastAssistantMessage);
+            if (lastAssistantMessage) {
+                console.log(lastAssistantMessage);
+                const cleanJSON = cleanJSONString(lastAssistantMessage);
+                console.log(cleanJSON);
+                const array = JSON.parse(cleanJSON);
+                console.log(array);
+                setAiDataForFirestore(array);
+            }
+
+            console.log(aiDataForFirestore);
             console.log("Done loading.");
         }
         console.log(aiDataForFirestore); //
     }, [isLoading]);
-
 
     const [trackerData, setTrackerData] = useState([]);
 
@@ -158,7 +178,7 @@ Please generate the JSON in a single line without any newline characters.
                     </li>
                 ))}
             </ul> */}
-            <ul className='hidden'>
+            <ul className="hidden">
                 {messages
                     .filter((m) => m.role === "assistant")
                     .slice(-3)

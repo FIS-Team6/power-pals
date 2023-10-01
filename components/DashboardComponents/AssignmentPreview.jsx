@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { timestampToDate } from '../../server/firebase-functions';
 
 
 
@@ -9,29 +10,35 @@ export default function AssignmentPreviewPreview({taskFormData, aiDataForFiresto
     console.log(aiDataForFirestore)
 
     return (
-        <div>
-            <h1>Preview</h1>
-            <p>{taskFormData.name}</p>
-            <p>{taskFormData.type}</p>
-            <p>{taskFormData.startDate}</p>
-            <p>{taskFormData.dueDate}</p>
-            <p>{taskFormData.assignment}</p>
-            <p>{taskFormData.numTasks}</p>
-            <p>{taskFormData.subtasksMin}</p>
-            <p>{taskFormData.subtasksMax}</p>
-            <p>{taskFormData.tasks}</p>
-            <div>
+        <div className='p-5'>
+            <div className='Settings Window border-2 m-5'>
+            <h1>Assignment Preview</h1>
+            <li>Name: {taskFormData.name}</li>
+            <li>Type: {taskFormData.type}</li>
+            <li>Start Date: {taskFormData.startDate}</li>
+            <li>Due Date: {taskFormData.dueDate}</li>
+            <li>{taskFormData.assignment}</li>
+            <li>Sections: {taskFormData.numTasks}</li>
+            </div>
+            <div className='m-5'>
                 {aiDataForFirestore?.map((task) => {
                     return(
-                        <div>
-                            <h3>{task.name}</h3>
+                        <div key={task.name} className='border-2 m-5'>
+                            <h3>Category: {task.name}</h3>
                             <h3>{task.description}</h3>
+                            <h3>Due Date: {timestampToDate(task.dueDate)}</h3>
                             <ul>
-                                {task.task.subtasks.map((subtask) => {
+                                <h3>Tasks:</h3>
+                                <div className='flex flex-col p-3 m-3'>
+                                {task.subTasks.map((subtask) => {
                                     return(
-                                        <li>{subtask}</li>
+                                        <div className='border-1 p-3 m-3  bg-slate-300' key={subtask.name}>
+                                            <li className='text-thin'>{subtask.name}</li>
+                                        </div>
                                     )
                                 })}
+
+                                </div>
                             </ul>
                         </div>
                     )

@@ -20,6 +20,21 @@ const saveArrayToFirestoreSubcollection = async (userId, dataArray) => {
     }
 };
 
+// *********** helpers ****************
+export function timestampToDate(timestamp) {
+    try {
+      const date = new Date(timestamp * 1000); // Convert the timestamp to milliseconds
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // January is 0
+      const year = date.getFullYear();
+  
+      return `${month}/${day}/${year}`;
+    } catch (error) {
+      console.error("Error converting timestamp to date:", error);
+      return null;
+    }
+  }
+
 // ********** new assignment crud ****************
 
 export const addAssignmentIdToUserCol = async (userId, assignmentId) => {
