@@ -83,13 +83,13 @@ export default function Chat({
     const promptPrimer = `
 Response must be in json format, dateformat is timestamp
 no quotations before the beginning and and end of the array.
-this is the assignment: ${mockFormData.assignment}.
-I'm starting this assignment on ${mockFormData.startDate}. 
-the assignment is due on ${mockFormData.dueDate} and i intend to complete everything the day before
-based on the due date, divide the assignment into ${mockFormData.numTasks} tasks. 
+this is the assignment: ${taskFormData.assignment}.
+I'm starting this assignment on ${taskFormData.startDate}. 
+the assignment is due on ${taskFormData.dueDate} and i intend to complete everything the day before
+based on the due date, divide the assignment into ${taskFormData.numTasks} tasks. 
 tasks must be json objects with the following keys: name, description, subTasks, and dueDate
 name is the name of the task
-Each task must contain between ${mockFormData.subtasksMin} and ${mockFormData.subtasksMax} subTasks 
+Each task must contain between ${taskFormData.subtasksMin} and ${taskFormData.subtasksMax} subTasks 
 The subtask is an object nested under the task's subclass key
 each subtask must contain the following keys: name, description and dueDate
 The subtasks will be saved as an array of objects under under each task 
@@ -107,12 +107,10 @@ Please generate the JSON in a single line without any newline characters.
         const preparePrompt = () => {
             setPrompt(promptPrimer); // Set the local state
             setInput(promptPrimer); // Set the input state of useChat
-            setTaskFormData(mockFormData); // Eventually this will be collected from form
-            console.log();
         };
 
         preparePrompt();
-    }, [promptPrimer]);
+    }, [taskFormData]);
 
     // Filter out messages by the assistant role
     const assistantMessages = messages.filter(
