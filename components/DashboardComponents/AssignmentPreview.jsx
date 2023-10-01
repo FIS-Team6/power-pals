@@ -3,12 +3,13 @@ import { timestampToDate } from '../../server/firebase-functions';
 
 
 
-export default function AssignmentPreviewPreview({taskFormData, aiDataForFirestore}) {
+export default function AssignmentPreviewPreview({taskFormData, aiDataForFirestore, previewReady, setPreviewReady}) {
 
     if(!taskFormData || !aiDataForFirestore) return(<div>loading...</div>)
     console.log(typeof(aiDataForFirestore))
     console.log(aiDataForFirestore)
 
+    if (!previewReady) return <></>
     return (
         <div className='flex justify-center items-center p-5'>
             <div className='Settings Window  rounded-lg shadow-xl border-1 p-3 my-5 mx-10'>

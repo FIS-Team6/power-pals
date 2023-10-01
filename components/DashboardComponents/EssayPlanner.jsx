@@ -3,8 +3,9 @@ import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import { useChat } from "ai/react";
 
-export default function EssayPlanner({ taskFormData, setTaskFormData }) {
-    const [subject, setSubject] = useState("");
+export default function EssayPlanner({ taskFormData, setTaskFormData, preview, setPreview, continueReady, setContinueReady}) {
+
+  const [subject, setSubject] = useState("");
     const [description, setDescription] = useState("");
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
@@ -20,11 +21,25 @@ export default function EssayPlanner({ taskFormData, setTaskFormData }) {
     const [modalOpen, setModalOpen] = useState(false);
 
     const handleInputChange = (e) => {
-        e.preventDefault();
-        const { name, value } = e.target;
-        setTaskFormData({ ...taskFormData, [name]: value });
-        // console.log(taskFormData);
+      e.preventDefault();
+      const { name, value } = e.target;
+      const newFormData = { ...taskFormData, [name]: value };
+      setTaskFormData(newFormData);
+    
+      const allFieldsFilled = Object.values(newFormData).every(
+        (field) => field !== undefined && field !== null && field !== '' && field !== 0
+      );
+    
+      if (allFieldsFilled) {
+        setContinueReady(true);
+        // All fields have values that are not undefined, null or blank.
+
+        console.log("All fields are filled");
+      } else {
+        console.log("Some fields are not filled");
+      }
     };
+    
 
     const {
       messages,
@@ -40,6 +55,8 @@ export default function EssayPlanner({ taskFormData, setTaskFormData }) {
 
     useEffect(() => {
       console.log(taskFormData);
+      console.log(preview)
+      console.log(continueReady)
     },[taskFormData])
 
     const handleFormSubmit = (e) => {
@@ -51,11 +68,17 @@ export default function EssayPlanner({ taskFormData, setTaskFormData }) {
 
     const openModal = () => {
         setModalOpen(true);
+        setPreview(false);
     };
 
     const closeModal = () => {
         setModalOpen(false);
     };
+
+    const handleContinue = () => {
+      closeModal();
+      setPreview(true);
+    }
 
     return (
         <div className="container">
@@ -144,7 +167,8 @@ export default function EssayPlanner({ taskFormData, setTaskFormData }) {
                                 </div>
                             </div>
                             <label>Number of main sections to break assignment into:</label>
-                            <select defaultValue={3} name="numTasks"  onChange={(e)=>handleInputChange(e)}>
+                            <select defaultValue="" name="numTasks"  onChange={(e)=>handleInputChange(e)}>
+                            <option value="" disabled hidden>Select number of sections </option>
                             <option value={3}>3</option>
                             <option value={4}>4</option>
                               <option value={5}>5</option>
@@ -152,7 +176,8 @@ export default function EssayPlanner({ taskFormData, setTaskFormData }) {
                             </select>
                 <label>Minimum number of tasks per section:</label>
                        
-                            <select defaultValue={2} name="subTasksMin"  onChange={(e)=>handleInputChange(e)}>
+                            <select defaultValue="" name="subTasksMin"  onChange={(e)=>handleInputChange(e)}>
+                            <option value="" disabled hidden> Select min</option>
                             <option value={2}>2</option>
                             <option value={3}>3</option>
                             <option value={4}>4</option>
@@ -160,16 +185,18 @@ export default function EssayPlanner({ taskFormData, setTaskFormData }) {
                             </select>
                            
                     <label>Maximum Number of Tasks per section:</label> 
-                            <select defaultValue={3} name="subTasksMax"  onChange={(e)=>handleInputChange(e)}>
+                            <select defaultValue="" name="subTasksMax"  onChange={(e)=>handleInputChange(e)}>
+                            <option value="" disabled hidden>Select max </option>
                             <option value={2}>2</option>
                             <option value={3}>3</option>
                             <option value={4}>4</option>
                               <option value={5}>5</option>
                             </select>
- 
-                            <button className="btn" type="submit">
-                                Create Essay Planner
-                            </button>
+                                        <div>
+                            <button className="btn" type="submit" onClick={closeModal}> Exit Form</button>
+                            { continueReady ? <button className="btn" type="submit" onClick={handleContinue}>Continue</button> : null }
+                            
+                                        </div>
                         </form>
                     </div>
                 </div>
