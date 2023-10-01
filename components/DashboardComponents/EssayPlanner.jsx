@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import { useChat } from "ai/react";
 
-export default function EssayPlanner({ taskFormData, setTaskFormData, preview, setPreview, continueReady, setContinueReady}) {
+export default function EssayPlanner({ taskFormData, setTaskFormData, preview, setPreview, setFinalPreview, continueReady, setContinueReady}) {
 
   const [subject, setSubject] = useState("");
     const [description, setDescription] = useState("");
@@ -78,6 +78,7 @@ export default function EssayPlanner({ taskFormData, setTaskFormData, preview, s
     const handleContinue = () => {
       closeModal();
       setPreview(true);
+      setFinalPreview(false)
     }
 
     return (

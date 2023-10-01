@@ -1,15 +1,21 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { timestampToDate } from '../../server/firebase-functions';
 
 
 
-export default function AssignmentPreviewPreview({taskFormData, aiDataForFirestore, previewReady, setPreviewReady}) {
+export default function AssignmentPreviewPreview({finalPreview, setFinalPreview, taskFormData, aiDataForFirestore, preview, setPreview}) {
 
     if(!taskFormData || !aiDataForFirestore) return(<div>loading...</div>)
-    console.log(typeof(aiDataForFirestore))
-    console.log(aiDataForFirestore)
+    useEffect(() => {
+        console.log("pre FB data test")
+        console.log(typeof(aiDataForFirestore))
+        console.log(aiDataForFirestore)
+        console.log(typeof(taskFormData))
+        console.log(taskFormData)
+        
+    },[aiDataForFirestore])
 
-    if (!previewReady) return <></>
+    if (!preview) return <></>
     return (
         <div className='flex justify-center items-center p-5'>
             <div className='Settings Window  rounded-lg shadow-xl border-1 p-3 my-5 mx-10'>

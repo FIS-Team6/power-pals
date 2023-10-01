@@ -9,6 +9,9 @@ export default function Chat({
     setAiDataForFirestore,
     taskFormData,
     setTaskFormData,
+    setFinalPreview,
+    finalPreview,
+    preview,
 }) {
     const {
         messages,
@@ -49,6 +52,7 @@ export default function Chat({
     //** This section is for research paper planner */
 
     const mockFormData = {
+
         uid: currentUser?.id,
         name: "final paper",
         type: "paper",
@@ -83,6 +87,7 @@ export default function Chat({
     const promptPrimer = `
 Response must be in json format, dateformat is timestamp
 no quotations before the beginning and and end of the array.
+no text outside of the json array
 this is the assignment: ${taskFormData.assignment}.
 I'm starting this assignment on ${taskFormData.startDate}. 
 the assignment is due on ${taskFormData.dueDate} and i intend to complete everything the day before
@@ -108,7 +113,6 @@ Please generate the JSON in a single line without any newline characters.
             setPrompt(promptPrimer); // Set the local state
             setInput(promptPrimer); // Set the input state of useChat
         };
-
         preparePrompt();
     }, [taskFormData]);
 
@@ -140,6 +144,8 @@ Please generate the JSON in a single line without any newline characters.
         return cleanedString;
     }
 
+
+    //** This useEffect handles most of the flow of the open ai interaction / response  */
     useEffect(() => {
         if (isLoading) {
             console.log("Loading...");
@@ -151,6 +157,7 @@ Please generate the JSON in a single line without any newline characters.
                 const array = JSON.parse(cleanJSON);
                 console.log(array);
                 setAiDataForFirestore(array);
+                setFinalPreview(true);
             }
 
             console.log(aiDataForFirestore);
@@ -192,12 +199,15 @@ Please generate the JSON in a single line without any newline characters.
                     value={input}
                     onChange={handleInputChange}
                 />
+                {(!preview || finalPreview) ? <></>
+                :
                 <button
                     className="border-2 btn text-red-500 w-md text-center justify-items-center"
                     type="submit"
                 >
-                    Send
+                    Generate Assignment Plan
                 </button>
+                }
             </form>
         </div>
     );
