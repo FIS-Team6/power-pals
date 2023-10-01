@@ -12,8 +12,7 @@ export default function DashboardPage() {
     const [aiDataForFirestore, setAiDataForFirestore] = useState([])
 
     return (
-        <main>
-            <h1 className=''></h1>
+        <main className="text-center py-20">
             {/* <NewTask setTaskFormData={setTaskFormData} /> */}
             <AssignmentPreviewPreview taskFormData={taskFormData} aiDataForFirestore={aiDataForFirestore}/>
             <GPTComponent

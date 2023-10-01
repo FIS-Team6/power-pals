@@ -22,7 +22,7 @@ export default function SignUpForm() {
       <main>
           <div className="relative flex flex-col justify-center h-screen overflow-hidden">
             <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl">
-                <h1 className="text-3xl font-semibold text-center text-purple-700">DaisyUI</h1>
+                <h1 className="text-3xl font-semibold text-center text-purple-700">Sign up for an account!</h1>
                 <form onSubmit={handleSignUp} className="space-y-4">                   
                     <div>
                         <label className="label">
@@ -48,7 +48,7 @@ export default function SignUpForm() {
                         <button className="btn btn-block btn-primary">Sign Up</button>
                     </div>
                     <span>Already have an account ?
-                        <Link href="/login" className="text-blue-600 hover:text-blue-800 hover:underline">Login</Link></span>
+                        <Link href="/login" className="text-blue-600 hover:text-blue-800 hover:underline">Log In</Link></span>
                 </form>
             </div>
         </div>      

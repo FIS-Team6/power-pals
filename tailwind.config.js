@@ -7,7 +7,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        teal: '#05878a'
+        teal: '#05878a',
+        indigo_dye: '#004777'
       },
       fontFamily: {      
         roboto: ['Roboto', 'latin-ext'],

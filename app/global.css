@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
- background: teal;
-}
+/* body {
+ 
+} */
 
 main {
   @apply w-full h-screen

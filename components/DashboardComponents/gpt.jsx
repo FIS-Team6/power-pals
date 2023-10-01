@@ -195,7 +195,7 @@ Please generate the JSON in a single line without any newline characters.
                     onChange={handleInputChange}
                 />
                 <button
-                    className="bg-yellow-500 border-2 text-red-500 w-md"
+                    className="border-2 btn text-red-500 w-md text-center justify-items-center"
                     type="submit"
                 >
                     Send
