@@ -2,17 +2,17 @@
 import React, {useState, useEffect} from "react";
 import Completion from "../../components/DashboardComponents/Completion";
 import { getUserAssignments } from "../../server/firebase-functions";
+import { useUser } from "../../context/UserContext";
 
 export default function ProfilePage() {
 
+    const { currentUser } = useUser();
     const [userAssignments, setUserAssignments] = useState([])
-
-    const userId = "GhrLewFFxjaHliTR7Ea5TGTo3S43"
 
     useEffect(() => {
         const getUserAssignmentsData = async () => {
             try {
-                const assignments = await getUserAssignments(userId)
+                const assignments = await getUserAssignments(currentUser.id)
                 console.log(assignments)
                 setUserAssignments(assignments)
             } catch(error) {
