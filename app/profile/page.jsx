@@ -3,6 +3,7 @@ import React, {useState, useEffect} from "react";
 import Completion from "../../components/DashboardComponents/Completion";
 import { getUserAssignments } from "../../server/firebase-functions";
 import { useUser } from "../../context/UserContext";
+import UpdateProfileModal from "../../components/ProfileComponents/UpdateProfileModal";
 
 export default function ProfilePage() {
 
@@ -25,6 +26,7 @@ export default function ProfilePage() {
 
     return (
        <main>
+        <UpdateProfileModal />
             {/* <Completion />
             <div className="hero-content text-center text-neutral-content">
                 <div className="collapse collapse-arrow bg-base-200">

@@ -7,6 +7,7 @@ import AssignmentPreviewPreview from "../../components/DashboardComponents/Assig
 import EssayPlanner from "../../components/DashboardComponents/EssayPlanner";
 import { useUser } from "../../context/UserContext";
 import { createNewAssignment } from "../../server/firebase-functions";
+import Sidebar from "../../components/DashboardComponents/Sidebar";
 
 export default function DashboardPage() {
     const { currentUser } = useUser();
@@ -40,7 +41,12 @@ export default function DashboardPage() {
     }
 
     return (
-        <main className="text-center py-20">
+        <div className="text-center  h-[80vh] flex flex-row pm-0">
+            <div className='w-1/5'>
+            <Sidebar />
+            </div>
+
+            <div className="workspace---class-name-can-change-later relative">
             <EssayPlanner
                 preview={preview}
                 setPreview={setPreview}
@@ -49,13 +55,13 @@ export default function DashboardPage() {
                 taskFormData={taskFormData}
                 setTaskFormData={setTaskFormData}
                 setFinalPreview={setFinalPreview}
-            />
+                />
             {/* <NewTask setTaskFormData={setTaskFormData} /> */}
 
             {!preview ? (
                 <></>
-            ) : (
-                <div>
+                ) : (
+                    <div>
                     <AssignmentPreviewPreview
                         preview={preview}
                         setPreview={setPreview}
@@ -63,7 +69,7 @@ export default function DashboardPage() {
                         aiDataForFirestore={aiDataForFirestore}
                         finalPreview={finalPreview}
                         setFinalPreview={setFinalPreview}
-                    />
+                        />
                     <GPTComponent
                         preview={preview}
                         finalPreview={finalPreview}
@@ -72,14 +78,15 @@ export default function DashboardPage() {
                         taskFormData={taskFormData}
                         setTaskFormData={setTaskFormData}
                         setFinalPreview={setFinalPreview}
-                    />
+                        />
                 </div>
             )}
             {/* <AITest /> */}
             {!finalPreview ?
             null :
             <button className='saveToFireStoreBtn' type='btn' onClick={handleSaveAssignment}>Confirm</button>
-            }
-        </main>
+        }
+        </div>
+        </div>
     );
 }
