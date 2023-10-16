@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
         <UserProvider>
             <html lang="en">
                 <body suppressHydrationWarning={true} className={`${inter.className} bg-info text-white`}>     
-                    <NavBar />               
+                    <NavBar />
                     {children}
                     <Footer />
                 </body>

@@ -21,7 +21,6 @@ export default function ProfilePage() {
             }
         }
         getUserAssignmentsData()
- 
     }, [])
 
     return (
